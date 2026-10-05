@@ -183,11 +183,13 @@ Why there are multiple address
 
 Each Thread-device get Automatic Ally several IPv6-Adress for different usecases.
 
+```
 Adress	Type	Property
-fd36:122:1738:1:...	OMR (Off-Mesh-Routable)	Aus eurem BR-Präfix, für Zugriff von außerhalb des Mesh
-fd51:...:0:ff:fe00:e801	RLOC (Routing Locator)	Kodiert die aktuelle RLOC16 direkt in der Adresse – ändert sich, wenn das Gerät seine Rolle wechselt (z. B. Child → Router)
-fd51:...:63fc:...	ML-EID (Mesh-Local EID)	Stabile, zufällige Identität innerhalb des Mesh-Präfixes – ändert sich nicht bei Rollenwechsel
-fe80:...	Link-Local	Nur auf der direkten Funkverbindung gültig, nie mehrbereichsweise routbar
+fd36:122:1738:1:...	OMR (Off-Mesh-Routable)	From your BR-prefix, for access outside the mesh
+fd51:...:0:ff:fe00:e801	RLOC (Routing Locator)	coded current RLOC16 direct to an address – changed after a role switch (e.g. Child → Router)
+fd51:...:63fc:...	ML-EID (Mesh-Local EID)	stable, random identity inside the Mesh-prefixes – does not change after a role switch
+fe80:...	Link-Local	Only useable for direct wireless connection, is not routeable over multiple ranges
+```
 
 ---
 
