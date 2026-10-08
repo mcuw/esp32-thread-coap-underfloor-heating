@@ -7,7 +7,7 @@
 #include "ws2812_control.h"
 
 static const char *TAG = "coap_underfloor_heating";
-static otCoapResource s_light_resource;
+static otCoapResource s_underfloor_heating_resource;
 
 // Build the current state response as JSON: {"on":true,"r":255,"g":0,"b":0}
 static void build_state_json(char *out, size_t out_len)
@@ -43,7 +43,7 @@ static void send_response(otInstance *instance, otMessage *request,
 
     otError err = otCoapSendResponse(instance, response, info);
     if (err != OT_ERROR_NONE) {
-        ESP_LOGW(TAG, "Antwort senden fehlgeschlagen: %d", err);
+        ESP_LOGW(TAG, "Failed to send response: %d", err);
         otMessageFree(response);
     }
 }
