@@ -79,7 +79,7 @@ factoryreset
 
 ## Set Up Network
 
-To run this example, at least two ESP32-H2 boards flashed with this ot_cli example are required.
+To run this example, at least two ESP32-C6 boards flashed with this ot_cli example are required.
 
 On the first device, run the following commands:
 ```bash
