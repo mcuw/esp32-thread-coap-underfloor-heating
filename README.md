@@ -1,13 +1,13 @@
 | Supported Targets | ESP32-C6 |
 | ----------------- | -------- |
 
-# Thread CoAP light server
+# Thread CoAP - underfloor heating
 
 ## Features
 
-- Compatible with the Thread Border Router: [esp32-thread-br](https://github.com/mcuw/esp32-thread-br)
+- Compatible with the Thread Border Router: [ESP32-thread-br](https://github.com/mcuw/esp32-thread-br)
 
-- CoAP-Server is running (/light-Ressource)
+- CoAP-Server is running (/heat-Ressource)
 
 - WS2812 is supported
 
@@ -19,7 +19,12 @@ To run this example, a board with IEEE 802.15.4 module (for example ESP32-C6) is
 
 ### Configure the project
 
+
+```sh
+idf.py set-target esp32c6
 ```
+
+```sh
 idf.py menuconfig
 ```
 
@@ -32,11 +37,6 @@ Component config → ESP System Settings → Channel for console output → USB 
 ### Build, Flash, and Run
 
 Build the project and flash it to the board, then run monitor tool to view serial output:
-
-For ESP32-C6 with 16 MB Flash (optional):
-```sh
-idf.py set-target esp32c6
-```
 
 ```sh
 idf.py -p PORT build flash monitor
@@ -202,3 +202,14 @@ fe80:...	Link-Local	Only useable for direct wireless connection, is not routeabl
 ### A flash is not working
 
 - disconnect the USB-C cable from native port and connect to the serial port, if the development board has second USB-C port.
+
+### ESP-IDF not found
+
+In case your ESP-IDF path has changed
+```sh
+rm dependencies.lock
+```
+
+```sh
+idf.py set-target esp32c6
+```

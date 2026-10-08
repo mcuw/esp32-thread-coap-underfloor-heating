@@ -2,7 +2,7 @@ dependencies:
   cmd_system:
     dependencies: []
     source:
-      path: ../../../../../.espressif/preview/examples/system/console/advanced/components/cmd_system
+      path: components/system/console/advanced/components/cmd_system
       type: local
     version: '*'
   coap_light_server:
@@ -84,9 +84,9 @@ dependencies:
     - name: espressif/iperf-cmd
       version: ^1.0.2
     - name: cmd_system
-      path: ${IDF_PATH}/examples/system/console/advanced/components/cmd_system
+      path: ../../../system/console/advanced/components/cmd_system
     source:
-      path: ../../../../../.espressif/preview/examples/openthread/ot_common_components/ot_examples_common
+      path: components/openthread/ot_common_components/ot_examples_common
       type: local
     version: '*'
   ot_led:
@@ -94,7 +94,7 @@ dependencies:
     - name: espressif/led_strip
       version: ^3.0.0
     source:
-      path: ../../../../../.espressif/preview/examples/openthread/ot_common_components/ot_led
+      path: components/openthread/ot_common_components/ot_led
       type: local
     version: '*'
 direct_dependencies:
@@ -105,6 +105,6 @@ direct_dependencies:
 - idf
 - ot_examples_common
 - ot_led
-manifest_hash: c6518cf42f229906a1b019ad8ecf5442f13a04fde827bfd60d7c4c7f9bc4063c
+manifest_hash: 9663408ac16d84d223ff55c4f1c119f24d47d7630d0c341236158a3d3325407c
 target: esp32c6
 version: 3.0.0
