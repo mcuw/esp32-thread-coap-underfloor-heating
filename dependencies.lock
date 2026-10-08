@@ -5,10 +5,10 @@ dependencies:
       path: components/system/console/advanced/components/cmd_system
       type: local
     version: '*'
-  coap_light_server:
+  coap_underfloor_heating:
     dependencies: []
     source:
-      path: components/coap_light_server
+      path: components/coap_underfloor_heating
       type: local
     version: '*'
   esp-qa/coexist-cmd:
@@ -98,13 +98,13 @@ dependencies:
       type: local
     version: '*'
 direct_dependencies:
-- coap_light_server
+- coap_underfloor_heating
 - esp-qa/coexist-cmd
 - espressif/cjson
 - espressif/esp_ot_cli_extension
 - idf
 - ot_examples_common
 - ot_led
-manifest_hash: 9663408ac16d84d223ff55c4f1c119f24d47d7630d0c341236158a3d3325407c
+manifest_hash: fc6f7bc4512680ad2bacb4e6ebae42089dcc8dfd5c051896836a0e658980a5fe
 target: esp32c6
 version: 3.0.0

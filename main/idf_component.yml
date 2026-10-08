@@ -4,8 +4,8 @@ dependencies:
     version: ~2.0.0
   idf:
     version: '>=4.1.0'
-  coap_light_server:
-    path: ../components/coap_light_server
+  coap_underfloor_heating:
+    path: ../components/coap_underfloor_heating
   ot_led:
     path: ../components/openthread/ot_common_components/ot_led
   ot_examples_common:

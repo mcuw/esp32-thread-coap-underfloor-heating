@@ -37,8 +37,8 @@
 // WS2812 control component
 #include "ws2812_control.h"
 
-// CoAP light server component
-#include "coap_light_server.h"
+// CoAP underfloor heating component
+#include "coap_underfloor_heating.h"
 
 // auto-joiner component
 #include "auto_joiner.h"
@@ -120,11 +120,11 @@ void app_main(void)
     }
 
     //
-    // CoAP light server
+    // CoAP underfloor heating
     // to control WS2812 RGB LED strip via CoAP commands
     //
     ws2812_control_init();
-    coap_light_server_init();
+    coap_underfloor_heating_init();
 
 #if CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
     esp_cli_custom_command_init();
