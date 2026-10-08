@@ -82,19 +82,20 @@ factoryreset
 To run this example, at least two ESP32-C6 boards flashed with this ot_cli example are required.
 
 On the first device, run the following commands:
-```bash
+```sh
 esp32c6> ot factoryreset
 ... # the device will reboot
+```
 
+After some seconds
 
-# After some seconds
-
+```sh
 esp32c6> ot state
 leader
 Done
 ```
 Now the first device has formed a Thread network as a leader. Follow the open commissioning with the [esp32-thread-br](https://github.com/mcuw/esp32-thread-br). Get some information which will be used in next steps:
-```bash
+```sh
 esp32c6> ot ipaddr
 fdde:...:fc42
 fdde:...8042
@@ -106,8 +107,9 @@ esp32c6> ot dataset active -x
 ***REMOVED***0e...
 ```
 
-# After some seconds
+After some seconds
 
+```sh
 esp32c6> ot state
 router  # child is also a valid state
 Done
