@@ -6,10 +6,10 @@
 #include "cJSON.h"
 #include "ws2812_control.h"
 
-static const char *TAG = "coap_light";
+static const char *TAG = "coap_underfloor_heating";
 static otCoapResource s_light_resource;
 
-// Baut die aktuelle Zustands-Antwort als JSON: {"on":true,"r":255,"g":0,"b":0}
+// Build the current state response as JSON: {"on":true,"r":255,"g":0,"b":0}
 static void build_state_json(char *out, size_t out_len)
 {
     bool on; uint8_t r, g, b;
@@ -48,7 +48,7 @@ static void send_response(otInstance *instance, otMessage *request,
     }
 }
 
-static void light_handler(void *ctx, otMessage *message, const otMessageInfo *info)
+static void underfloor_heating_handler(void *ctx, otMessage *message, const otMessageInfo *info)
 {
     ESP_LOGI(TAG, "Received request, Code: %d", otCoapMessageGetCode(message));
 
@@ -104,24 +104,24 @@ static void light_handler(void *ctx, otMessage *message, const otMessageInfo *in
     send_response(instance, message, info, OT_COAP_CODE_METHOD_NOT_ALLOWED, NULL);
 }
 
-void coap_light_server_init(void)
+void coap_underfloor_heating_init(void)
 {
     otInstance *instance = esp_openthread_get_instance();
 
     esp_openthread_lock_acquire(portMAX_DELAY);
     otError err = otCoapStart(instance, OT_DEFAULT_COAP_PORT);
     if (err != OT_ERROR_NONE) {
-        ESP_LOGE(TAG, "CoAP-Start fehlgeschlagen: %d", err);
+        ESP_LOGE(TAG, "Failed to start CoAP service: %d", err);
         esp_openthread_lock_release();
         return;
     }
 
-    s_light_resource.mUriPath = "light";
-    s_light_resource.mHandler = light_handler;
-    s_light_resource.mContext = NULL;
-    s_light_resource.mNext = NULL;
-    otCoapAddResource(instance, &s_light_resource);
+    s_underfloor_heating_resource.mUriPath = "heating";
+    s_underfloor_heating_resource.mHandler = underfloor_heating_handler;
+    s_underfloor_heating_resource.mContext = NULL;
+    s_underfloor_heating_resource.mNext = NULL;
+    otCoapAddResource(instance, &s_underfloor_heating_resource);
     esp_openthread_lock_release();
 
-    ESP_LOGI(TAG, "CoAP-Ressource '/light' registriert auf Port %d", OT_DEFAULT_COAP_PORT);
+    ESP_LOGI(TAG, "CoAP-Ressource '/heating' listen on port %d", OT_DEFAULT_COAP_PORT);
 }
