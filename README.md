@@ -201,7 +201,7 @@ fe80:...	Link-Local	Only useable for direct wireless connection, is not routeabl
 
 - use the reset button after a firmware flash
 
-### A flash is not working
+### Failed to flash
 
 - disconnect the USB-C cable from native port and connect to the serial port, if the development board has second USB-C port.
 
