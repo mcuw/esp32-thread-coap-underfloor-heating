@@ -97,14 +97,14 @@ Done
 Now the first device has formed a Thread network as a leader. Follow the open commissioning with the [esp32-thread-br](https://github.com/mcuw/esp32-thread-br). Get some information which will be used in next steps:
 ```sh
 esp32c6> ot ipaddr
-fdde:...:fc42
-fdde:...8042
+<ipv6-adresse>
+fdde:...:8042
 fdde:...:2742
-fe80:...:c842
+fe80:..:c842
 
 # Get the Active Dataset
 esp32c6> ot dataset active -x
-***REMOVED***0e...
+0e...
 ```
 
 After some seconds
@@ -142,10 +142,10 @@ Then create an iperf client connecting to the service on another node. Note that
 
 ```bash
 > ot ipaddr mleid
-fdde:...:2742
+fdde:...:271b
 Done
 
-> iperf -V -c fdde:...:2742 -t 20 -i 1 -p 5001 -l 85 -f k
+> iperf -V -c fdde:...:271b -t 20 -i 1 -p 5001 -l 85 -f k
 Done
 [ ID] Interval		Transfer	Bandwidth
 [  1]  0.0- 1.0 sec	3.15 KBytes	25.16 Kbits/sec
