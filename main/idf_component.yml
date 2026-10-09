@@ -6,6 +6,8 @@ dependencies:
     version: '>=4.1.0'
   coap_underfloor_heating:
     path: ../components/coap_underfloor_heating
+  hw_sim:
+    path: ../components/hw_sim
   ot_led:
     path: ../components/openthread/ot_common_components/ot_led
   ot_examples_common:

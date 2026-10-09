@@ -1,0 +1,21 @@
+menu "Underfloor Heating"
+
+    config HEATING_MOCK_HW
+        bool "Hardware simulieren (Mux, L9110, Motor, INA219)"
+        default y
+        help
+            Aktiv: Motoren und INA219 werden simuliert, die RGB-LED zeigt die
+            Fahrbewegung an (rot = oeffnen, blau = schliessen, weiss = Anschlag).
+            Es werden keine GPIOs und kein I2C benutzt.
+            Aus: echte Hardware.
+
+    config HEATING_MOCK_TRAVEL_MS
+        int "Simulierte Fahrzeit 0..100 % (ms)"
+        depends on HEATING_MOCK_HW
+        default 6000
+        range 1000 120000
+        help
+            Wird auch von valve_control als travel_ms aller Zonen verwendet,
+            damit Simulation und Regelung zusammenpassen.
+
+endmenu
