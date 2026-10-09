@@ -141,7 +141,7 @@ Done
 Then create an iperf client connecting to the service on another node. Note that the [ML-EID](https://openthread.io/guides/thread-primer/ipv6-addressing#unicast_address_types) address is used for iperf.
 
 ```bash
-> ipaddr mleid
+> ot ipaddr mleid
 fdde:...:2742
 Done
 
@@ -214,4 +214,195 @@ rm dependencies.lock
 
 ```sh
 idf.py set-target esp32c6
+```
+
+## Test CoAP with simulated hardware
+
+Test the CoAP service on ESP32-C6 w/o a connected external device (INA219, Motor, ...)
+
+1. activate simulation configuration
+```sh
+idf.py menuconfig
+```
+select "Underfloor Heating/ Simulate hardware devices"
+
+2. build firmware
+```sh
+idf.py build flash monitor
+```
+
+3. get dataset from "underfloor heating" ot cli
+
+```sh
+ot dataset active -x
+```
+
+4. flash and monitor another ESP32-c6 with the ESP-IDF ot_cli example
+
+5. use hex from step 2
+```sh
+ot dataset set active <hex-string>
+ot ifconfig up
+ot thread start
+```
+
+6. wait 10-20s for an output then check role state
+
+```sh
+ot state
+```
+
+7. when the role changed to `child`, `router` or `leader` then continue
+
+```sh
+ot coap start
+ot coap get <IP> heating
+```
+
+8. decode HEX response
+```sh
+echo <hex-string> | xxd -r -p | jq
+```
+
+outputs
+```json
+{
+  "zones": [
+    {
+      "zone": 1,
+      "t": null,
+      "sp": 21,
+      "valid": false,
+      "open": false,
+      "pos": 0
+    },
+    {
+      "zone": 2,
+      "t": null,
+      "sp": 21,
+      "valid": false,
+      "open": false,
+      "pos": 0
+    },
+    {
+      "zone": 3,
+      "t": null,
+      "sp": 21,
+      "valid": false,
+      "open": false,
+      "pos": 0
+    },
+    {
+      "zone": 4,
+      "t": null,
+      "sp": 21,
+      "valid": false,
+      "open": false,
+      "pos": 0
+    }
+  ]
+}
+```
+This is the start state:
+- multiple zones exists
+- `t`: null
+- `valid`: false, weil noch kein Sensor gemeldet hat.
+- `sp`: 21 ist der Standardsollwert.
+- `open`: false
+- `pos`: 0, also ist die Referenzfahrt durch und alle Ventile sind zu (Failsafe)
+
+### Test send temperature change message
+
+#### call on ot_cli node: set cold to open valve
+
+```sh
+ot coap put <IP> heating/temp con {"zone":1,"t":18.0}
+```
+
+output on underfloor heating node
+
+```sh
+I (1734269) valve_control: Zone 1 (Kanal 0): Ventil -> AUF (T=18.0, Soll=21.0)
+I (1734269) coap_underfloor_heating: Temp zone=1 t=18.00 -> ok
+I (1734499) valve_control: Zone 1: fahre 0% -> 100% (max 9000 ms)
+I (1734549) hw_sim: Kanal 0: OEFFNEN ab 0%
+I (1734549) ws2812: LED On (R=80 G=0 B=0)
+I (1740629) hw_sim: Kanal 0: Stopp bei 100% (Anschlag)
+I (1740629) ws2812: LED On (R=80 G=80 B=80)
+I (1740779) ws2812: LED Off (R=80 G=80 B=80)
+I (1740779) valve_control: Zone 1: fertig nach 6079 ms, Anschlag=ja, Fahrstrom=119 mA, Spitze=256 mA -> pos=100%
+```
+
+call on ot_cli node to get the `heating` state
+
+```sh
+ot coap get <IP> heating
+```
+outputs ot_cli node
+
+```json
+{
+  "zones": [
+    {
+      "zone": 1,
+      "t": 18,
+      "sp": 21,
+      "valid": true,
+      "open": true,
+      "pos": 100
+    },
+    ...
+```
+  
+#### set too warm there for close valve
+
+call on ot_cli node
+
+```sh
+ot coap put <IP> heating/temp con {"zone":1,"t":23.0}
+```
+
+get the `heating` state
+
+```sh
+ot coap get <IP> heating
+```
+
+outputs
+```json
+{
+  "zones": [
+    {
+      "zone": 1,
+      "t": 23,
+      "sp": 21,
+      "valid": true,
+      "open": false,
+      "pos": 0
+    },
+```
+
+other test
+
+#### Hysterese: 21.0 liegt zwischen 20.7 und 21.3, es darf nichts passieren
+```sh
+ot coap put <IP> heating/temp con {"zone":1,"t":21.0}
+```
+
+#### Sollwert ändern: bei t=23 und sp=25 muss das Ventil wieder öffnen
+
+```sh
+ot coap put <IP> heating/setpoint con {"zone":1,"sp":25.0}
+```
+
+#### negative paths
+
+unknown zone
+```sh
+ot coap put <IP> heating/temp con {"zone":9,"t":20.0}
+```
+
+invalid setpoint value
+```sh
+ot coap put <IP> heating/setpoint con {"zone":1,"sp":50.0}
 ```

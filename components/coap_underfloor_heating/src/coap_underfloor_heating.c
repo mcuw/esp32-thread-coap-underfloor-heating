@@ -108,6 +108,7 @@ static void temp_handler(void *ctx, otMessage *message, const otMessageInfo *inf
     cJSON *t    = json ? cJSON_GetObjectItem(json, "t")    : NULL;
 
     if (!cJSON_IsNumber(zone) || !cJSON_IsNumber(t)) {
+        ESP_LOGW(TAG, "Temp denied (invalid JSON or zone-/ t-values)");
         cJSON_Delete(json);
         send_response(instance, message, info, OT_COAP_CODE_BAD_REQUEST, NULL);
         return;
@@ -141,12 +142,15 @@ static void setpoint_handler(void *ctx, otMessage *message, const otMessageInfo 
 
     if (!cJSON_IsNumber(zone) || !cJSON_IsNumber(sp) ||
         sp->valuedouble < 5.0 || sp->valuedouble > 35.0) {
+        ESP_LOGW(TAG, "Setpoint denied (invalid JSON or outside 5..35)");
         cJSON_Delete(json);
         send_response(instance, message, info, OT_COAP_CODE_BAD_REQUEST, NULL);
         return;
     }
 
     bool ok = valve_control_set_setpoint((uint8_t)zone->valueint, (float)sp->valuedouble);
+    ESP_LOGI(TAG, "Setpoint zone=%d sp=%.1f -> %s", zone->valueint, sp->valuedouble,
+        ok ? "ok" : "unknown zone");
     cJSON_Delete(json);
 
     if (!ok) {
