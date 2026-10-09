@@ -97,7 +97,7 @@ Done
 Now the first device has formed a Thread network as a leader. Follow the open commissioning with the [esp32-thread-br](https://github.com/mcuw/esp32-thread-br). Get some information which will be used in next steps:
 ```sh
 esp32c6> ot ipaddr
-<ipv6-adresse>
+fdde:...:fc42
 fdde:...:8042
 fdde:...:2742
 fe80:..:c842
