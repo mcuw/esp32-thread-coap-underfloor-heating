@@ -406,3 +406,16 @@ invalid setpoint value
 ```sh
 ot coap put <IP> heating/setpoint con {"zone":1,"sp":50.0}
 ```
+
+#### Test sensor timeout -> go to failsafe position
+
+- comment out default value to 30s
+```c
+// #define SENSOR_TIMEOUT_S        (15 * 60)  // keine Messung -> Failsafe
+#define SENSOR_TIMEOUT_S        (30)  // keine Messung -> Failsafe
+```
+- send value 18°C
+- after 40s because check is every 10s
+- expect Sensor-Timeout output and move to safe position
+- if you send a value again then zone should be valid again and continue to work regular
+- if you want to fail safe to bo open because of winter cold protection then set `FAILSAFE_VALVE_OPEN` to `1`
